@@ -15,14 +15,15 @@
  * 6. minify and copy all JS files
  * 7. copy fonts
  * 8. show build folder size
- * 
+ *
  */
-var gulp            = require('gulp'),
-    browserSync     = require('browser-sync'),
-    reload          = browserSync.reload,
-    $               = require('gulp-load-plugins')(),
-    del             = require('del'),
-    runSequence     = require('run-sequence');
+ var gulp                = require('gulp'),
+     historyApiFallback  = require('connect-history-api-fallback')
+     browserSync         = require('browser-sync'),
+     reload              = browserSync.reload,
+     $                   = require('gulp-load-plugins')(),
+     del                 = require('del'),
+     runSequence         = require('run-sequence');
 
 
 // optimize images
@@ -41,7 +42,8 @@ gulp.task('images', function() {
 gulp.task('browser-sync', function() {
   browserSync({
     server: {
-      baseDir: "./"
+      baseDir: "./",
+      middleware: [ historyApiFallback() ]
     }
   });
 });
@@ -255,7 +257,7 @@ gulp.task('default', ['browser-sync', 'sass', 'minify-css'], function() {
  * 6. minify and copy all JS files
  * 7. copy fonts
  * 8. show build folder size
- * 
+ *
  */
 gulp.task('build', function(callback) {
   runSequence(
